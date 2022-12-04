@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+<div class="row">
+  <div class="col-sm-8 offset-2">
+    <h4 class="alert alert-info">Update Gambar Keluhan</h4>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %} {{form.as_p}}
+
+      <button type="submit" class="btn btn-succes">Updates</button>
+    </form>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %} {% load auth_extras %}{% block content %}
+
+<h3 style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px black;">List User</h3>
+<div class="bungkus">
+  <div class="menu">
+    <form class="form-inline my-2 my-lg-0 " method="post" action="{% url 'search_biodata' %}" >
+      {% csrf_token %}
+      <input class="form-control mr-sm-2 col-sm-2" type="search"placeholder="cari user...." aria-label="Search" name="cari">
+      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">go</button>
+    </form>
+    <div class="tombol">
+      <a href="{% url 'tambio' %}" class="btn btn-outline-primary">Tambahkan</a>
+      
+    </div>
+  </div>
+  <br />
+  {% csrf_token %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Nama</th>
+        <th scope="col">Email</th>
+        <th scope="col">Alamat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in page_obj.object_list %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{u.username}}</td>
+        <td style="width:200px;">{{u.biodata.email}}</td>
+        <td style="width:500px;">{{u.biodata.alamat}}</td>
+        {% if request.user|has_group:"Operator" %}
+            <td>
+                <a href="{% url 'updatebio' u.id %}" class="btn btn-warning btn-sm">Edit </a>
+                {% csrf_token %}
+
+                </td>
+                {% endif %}
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+  <center>
+    <div style="justify-content:left;"
+    {%if page_obj.has_previous %} 
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="?page={{page_obj.previous_page_number}}">Sebelumnya</a> {# link to the prev page #}
+    </li> </ul> </div>
+        {% endif %} 
+        <span>ini adalah halaman ke {{page_obj.number}} </span>
+<div style="justify-content: end;"
+    {%if page_obj.has_next %} {# whether the next page exists #}
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="?page={{page_obj.next_page_number}}">Selanjutnya </a> {# link to the next page #}
+    {% endif %}
+      </div>
+</center>
+  {% endblock content %}
+</div>

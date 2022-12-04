@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %} 
+<div class="col-sm-4">
+    <h4 class="text-center alert alert-info">Menambahkan List user</h4>
+    <form action="" method="POST">
+
+     {% csrf_token %}
+     {{form.as_p}}
+
+    <input type="submit" class="btn btn-succes" value="Tambah" id="berhasil2" onclick="berhasil1()">
+    </from>
+</div>
+<script>
+
+function berhasil1() {
+    var a =
+document.getElementById("berhasil2");
+        alert("data berhasil ditambahkan");
+}
+</script>
+{% endblock content%}

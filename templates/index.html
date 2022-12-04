@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% load static %} {% block css %} {% endblock css %} {% block content %}
+{% if request.user.is_active %}
+<h2 style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px black;">Dashboard</h2>
+{% for g in request.user.groups.all %} 
+<h4 style="-webkit-text-fill-color: gold; -webkit-text-stroke: 0.8px black; float: left; position: relative; float:right;"> {{ g.name }} </h4>
+ {% endfor %}
+<div class="row" style="padding: 3rem">
+  <div class="col md-2">
+    <div class="card" style="width: 18rem; border-radius: 20px; right: 0; position: relative">
+      <img src=" {% static 'foto/keluhan.jpg' %}" class="card-img-top" alt="keluhan" />
+      <div class="card-body">
+        <p class="card-text text-center" style="background-color: white; color: black">Keluhan</p>
+        <p class="text-center" style="padding: 2rem"><a href="{% url 'problem' %}" class="btn btn-outline-primary">pergi ke halaman</a></p>
+      </div>
+      
+    </div>
+  </div>
+</div>
+{% else %}
+<p class="text-danger bg-light" style="padding: 1rem;"> login untuk menampilkan helpdesk </p>
+{% endif %}
+
+{% endblock content %}

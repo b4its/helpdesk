@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% load static %} {% load auth_extras %}{% load wrap_filter%}
+{% block content %}
+ <center>
+       <h3> beberapa kata kunci terkait : {{ pencarian }} </h3>
+      <br>
+      <form class="form-inline my-2 my-lg-0 justify-content-end" method="POST" action="{% url 'search_teknisi' %}" >
+        {% csrf_token %}
+        <input class="form-control mr-sm-2 col-sm-2" type="search"placeholder="cari teknisi dari keluhan...." aria-label="Search" name="pencarian">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">go</button>
+      </form><br>
+<div class="row">
+  <div class="col-12">
+    <table class="table" id="myTable">
+      <thead>
+        <tr>
+          <th scope="col">User</th>
+          <th scope="col">Judul</th>
+          <th scope="col">Pembahasan</th>
+          <th scope="col">Teknisi</th>
+          <th scope="col">Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for hasil in hasil %}
+        <tr>
+          <td>{{hasil.user}}</td>
+          <td>{{hasil.get_judul_display}}</td>
+          <td>{{hasil.pembahasan|text_wrap}}</td>
+          <td>{{hasil.teknisi}}</td>
+          <td>{{hasil.get_status_display}}</td>
+        {% endfor %}
+      </tbody>
+    </table>
+    <!--pagination-->
+    <center>
+      <div style="justify-content:left;"
+      {% if teknisi.has_previous %} 
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="?page={{teknisi.previous_page_number}}">Sebelumnya </a> {# link to the prev page #}
+      </li> </ul> </div>
+          {% endif %} 
+  
+  <div style="justify-content: end;"
+      {%if teknisi.has_next %}
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="?page={{teknisi.next_page_number}}">Selanjutnya </a> {# link to the next page #}
+      {% endif %}
+        </div>
+  </center>
+  <!--end pagination-->
+    {% endblock content %} 
+
+

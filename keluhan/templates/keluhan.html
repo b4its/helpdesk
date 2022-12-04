@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% load auth_extras %} {% load wrap_filter%} {% block css %} {% load static %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+{% endblock css %} {% block content %} {% load auth_extras%}
+<link rel="shortcut icon" href="{% static 'foto/keluhan.ico'%}" />
+<h3 style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px black;">Keluhan</h3>
+<a href="{% url 'keluhanmu' %}" class="btn btn-outline-primary"> tampilkan keluhan saya </a>
+<form class="form-inline my-2 my-lg-0 justify-content-end" method="POST" action="{% url 'search_teknisi' %}" >
+  {% csrf_token %}
+  <input class="form-control mr-sm-2 col-sm-2" type="search"placeholder="cari teknisi dari keluhan...." aria-label="Search" name="pencarian">
+  <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">go</button>
+</form><br>
+<div class="tombol">
+  <a href="{% url 'tambahkan-problem' %}" class="btn btn-outline-primary">Tambahkan</a>
+</div>  
+<div class="bungkus">
+  <div class="menu">
+
+  </div>
+  <br />
+  <table class="table" id="myTable">
+    <thead>
+      <tr>
+        <th scope="col">User</th>
+        <th scope="col">Judul</th>
+        <th scope="col">Pembahasan</th>
+        <th scope="col">Teknisi</th>
+        <th scope="col">Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for st in teknisi.object_list %}
+      <tr>
+        <td>{{st.user}}</td>
+        <td>{{st.get_judul_display}}</td>
+        <td>{{st.pembahasan|text_wrap}}</td>
+        <td>{{st.teknisi}}</td>
+        <td>{{st.get_status_display}}</td>
+        {% if request.user|has_group:"Teknisi" %}
+        <td>
+          <a href="{% url 'update-keluhan' st.id %}" class="btn btn-outline-warning"> Update </a>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!--pagination-->
+  <center>
+    <div style="justify-content:left;"
+    {%if teknisi.has_previous %} 
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="?page={{teknisi.previous_page_number}}">Sebelumnya </a> {# link to the prev page #}
+    </li> </ul> </div>
+        {% endif %} 
+        <span>ini adalah halaman ke {{teknisi.number}} </span>
+<div style="justify-content: end;"
+    {%if teknisi.has_next %} {# whether the next page exists #}
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="?page={{teknisi.next_page_number}}">Selanjutnya </a> {# link to the next page #}
+    {% endif %}
+      </div>
+</center>
+<!--end pagination-->
+  {% endblock content %} {% block js %}
+  <script href="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#myTable").DataTable();
+    });
+  </script>
+  {% endblock js %}
+</div>

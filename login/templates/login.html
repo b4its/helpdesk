@@ -1,0 +1,53 @@
+{% extends 'css.html' %} {% block content %}
+{% csrf_token %}
+ <title> Helpdesk </title>
+<body style="background-image: url(https://i.pinimg.com/originals/da/75/c9/da75c90ab973b5cb407aa3dc9420e53f.jpg); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
+<center>
+  <br>
+  <br>
+  <br>
+  <br>
+ <div class="rounded-end">
+          <div class="col-md-4 ml-auto mr-auto">
+            <div class="col-sm">
+            <form class="form" method="POST"> {% csrf_token %}
+              {% if error %}
+   <p style='color:red'>{{ error }}</p>
+   {% endif %}
+              <div class="card card-login card-plain" style="width:500px; height:350px;">  
+                <center>
+                 <div class="card-body">
+                   <h4 align="center"> login </h4>
+                  <div class="input-group no-border form-control-lg">
+                    <span class="input-group-prepend">
+                      <div class="input-group-text" style="height:35px;">
+                        username
+                      </div>
+                    </span>
+                    <input type="text" class="form-control" name='username' placeholder="username...">
+                  </div>
+                  <div class="input-group no-border form-control-lg">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text" style="height:35px;">
+                   password
+                      </div>
+                    </div>
+                    <input type="password" name='password' class="form-control">
+                  </div>
+                </div>
+                <div class="card-footer" style="height:160px;padding:1rem;">
+                  <button type='submit' class="btn btn-primary btn-round btn-lg btn-block mb-3">Get Started</a>
+                  </button>
+                <p>Anda tidak memiliki akun?, silahkan untuk <a href="{% url 'register' %}"> register </a> </p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+</center>
+
+
+
+{% csrf_token %}
+{% endblock content %}

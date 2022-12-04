@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% load static %} {% load wrap_filter%}
+ {% block content %}
+ <center>
+    {% if hasil %}
+       <h3> beberapa kata kunci terkait : {{ pencarian }} </h3>
+      <br>
+      <form class="form-inline my-2 my-lg-0 justify-content-end" method="POST" action="{% url 'search' %}" >
+        {% csrf_token %}
+        <input class="form-control mr-sm-2 col-sm-2" type="search"placeholder="cari judul dari keluhan anda...." aria-label="Search" name="pencarian">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">go</button>
+      </form><br>
+<div class="row">
+  <div class="col-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Judul</th>
+          <th>Rincian</th>
+          <th>Sebelum</th>
+          <th>Sesudah</th>
+          <th>Deskripsi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for hasil in hasil %}
+        <tr>
+          <th>{{forloop.counter}}</th>
+          <th style="width:0px;">{{hasil.file_name|judul_wrap}}</th>
+          <th style="width:0px;">{{hasil.pembahasan|text_wrap}}</th>
+          <th><a href="{{hasil.my_file.url}}"><img src="{{hasil.my_file.url}}" style="height: 100px; width: 100px" href="{{hasil.my_file.url}}" /></a>      
+          </th>
+          {% if hasil.my_file2 %}  
+          <th><a href="{{d.my_file2.url}}"><img src="{{hasil.my_file2.url}}" style="height: 100px; width: 100px" href="{{hasil.my_file2.url}}" /></a></th>
+          {% else %}
+          <th><img src="{% static 'foto/images/default.png' %}" style="height: 100px; width: 100px" /></th>
+          {% endif %}
+          <th>{{hasil.get_status_display}}</th>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+    <h4> tidak ada hasil pencarian yang bisa kami temukan</h4> 
+    <h4> silahkan untuk melakukan pencarian ulang </h4>
+    <center>
+    <form class="form-inline my-2 my-lg-0 justify-content-center" method="POST" action="{% url 'search' %}" >
+      {% csrf_token %}
+      <input class="form-control mr-sm-2 col-sm-2" type="search"placeholder="cari judul dari keluhan anda...." aria-label="Search" name="pencarian">
+      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">go</button>
+    </form>
+  </center>
+    {% endif %}
+<!--pagination-->
+<center>
+  <div style="justify-content:left;"
+  {%if page_obj.has_previous %} 
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="?page={{page_obj.previous_page_number}}">Sebelumnya </a> {# link to the prev page #}
+  </li> </ul> </div>
+      {% endif %} 
+
+<div style="justify-content: end;"
+  {%if page_obj.has_next %} {# whether the next page exists #}
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="?page={{page_obj.next_page_number}}">Selanjutnya </a> {# link to the next page #}
+  {% endif %}
+    </div>
+</center>
+ </center>{% endblock content %}
+

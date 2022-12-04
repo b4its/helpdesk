@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+<link rel="shortcut icon" href="{% static 'foto/keluhan.ico'%}" />
+<div class="col-sm-4">
+    
+    <h4 class="text-center alert alert-info">Menambahkan Keluhan</h4>
+    <form action="" method="POST">
+
+     {% csrf_token %}
+     {{form.as_p}}
+
+    <input type="Submit" class="btn btn-succes" id="berhasil2" onclick="berhasil1()" value="Tambah">
+    </from>
+</div>
+<script>
+    function berhasil1() {
+        var a =
+    document.getElementById("berhasil2");
+            alert("data berhasil ditambahkan");
+    }
+</script>
+{% endblock content%}

@@ -1,0 +1,49 @@
+{% extends 'css.html' %} {% block content %}
+  
+ <title> Helpdesk </title>
+ <body style="background-image: url(https://cdn.pixabay.com/photo/2020/09/27/08/44/clouds-5606104_1280.jpg);background-size: cover;background-repeat: no-repeat; background-attachment: fixed;">
+<center>
+  <style>
+    input{
+      border-radius:7px;
+      background-color: white;  
+      width:100%; 
+    } 
+    label{
+      color:black;
+    }
+    p{
+      color:green;
+    }
+    li{
+      color:red;
+    }
+
+    button{
+      background-color: white;
+      color:black;
+      font-weight: 590;
+      width:100px;
+      border-radius: 7px;
+      cursor:pointer;
+    }
+  </style>
+ <div class="content">
+        
+          <div class="col-sm-4">
+    <h4 class="text-center alert alert-info">Register</h4>
+    <form action="" method="POST">{% csrf_token %}
+ 		{{ form.as_p }}
+ <button type='submit'>Submit </button>
+         
+ 			
+               </form>
+             
+            <p> Anda sudah memiliki akun?, silahkan untuk <a href="{% url 'login' %}"> Login</a> </p>
+          
+      </div>
+  </div>
+</div>
+</div>
+  
+{% endblock %}

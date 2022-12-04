@@ -1,0 +1,41 @@
+from django.contrib.auth import authenticate, login , logout 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+
+TEMPLATE_DIRS = (
+    'os.path.join(BASE_DIR, "templates"),'
+)
+
+
+
+
+
+def login_view(request):
+	if request.method == "POST":
+		username = request.POST.get("username")
+		password = request.POST.get("password")
+		print(username, password)
+		user = authenticate(request, username=username, password=password)
+		if user is None:
+			context = {"error": "Invalid username or password"}
+			return render(request, "login.html", context)
+		login(request, user)
+		return redirect('/')
+	return render(request, "login.html", {})
+
+
+def register_view(request):
+	form = UserCreationForm(request.POST or None)
+	if form.is_valid():
+		user_obj = form.save()
+	context = {"form": form }
+	return render(request, "register.html", context)
+
+@login_required
+def logout_view(request):
+	if request.method =="POST":
+		logout(request)
+		return redirect("/login")
+	return render(request, "logout.html")
